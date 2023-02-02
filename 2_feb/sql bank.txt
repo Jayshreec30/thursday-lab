@@ -1,0 +1,102 @@
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME  | LAST_NAME   | EMAIL    |   JOB_ID     | SALARY   |  DEPARTMENT_ID |
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+|         100 | Steven      | King        | SKING    |  AD_PRES    | 24000.00 |    100 |          		
+|         101 | Neena       | Kochhar     | NKOCHHAR |   AD_VP      | 17000.00 |   90 |
+|         102 | Lex         | De Haan     | LDEHAAN  |   AD_VP      | 17000.00 |    90 |
+
+select name  from student table whose id is maximum?
+mysql> select* from employees;
++-------+-------------+------------+--------------------+---------+------------+---------------+
+| empid | efirst_name | elast_name | emp_email          | job_id  | emp_salary | department_id |
++-------+-------------+------------+--------------------+---------+------------+---------------+
+|   100 | steven      | king       | sking@gmail.com    | ad_pres |      24000 |           100 |
+|   101 | neena       | kochhar    | nkochhar@gmail.com | ad_vp   |      17000 |            90 |
+|   102 | lex         | de haan    | ldehaan@gmail.com  | ad_vp   |      17000 |            91 |
++-------+-------------+------------+--------------------+---------+------------+---------------+
+3 rows in set (0.01 sec)
+mysql> select efirst_name,elast_name from employees where empid=(select max(empid) from employees);
++-------------+------------+
+| efirst_name | elast_name |
++-------------+------------+
+| lex         | de haan    |
++-------------+------------+
+1 row in set (0.02 sec)
+
+1.Write a query to list the number of jobs available in the employees table?
+ mysql> select distinct(job_id) from employees;
++---------+
+| job_id  |
++---------+
+| ad_pres |
+| ad_vp   |
++---------+
+2 rows in set (0.04 sec)
+
+
+2.Write a query to get the total salaries payable to employees
+mysql> select sum(emp_salary) from employees;
++-----------------+
+| sum(emp_salary) |
++-----------------+
+|           58000 |
++-----------------+
+1 row in set (0.04 sec)
+
+
+3.Write a query to get the maximum salary of an employee working as a Programmer.
+mysql> select job_id,emp_salary from employees where emp_salary=(select max(emp_salary) from employees);
++---------+------------+
+| job_id  | emp_salary |
++---------+------------+
+| ad_pres |      24000 |
++---------+------------+
+1 row in set (0.00 sec)
+
+
+4. Write a query to get the average salary and number of employees working the department 90.
+mysql> select avg(emp_salary), count(*) from employees where department_id=90;
++-----------------+----------+
+| avg(emp_salary) | count(*) |
++-----------------+----------+
+|      17000.0000 |        1 |
++-----------------+----------+
+1 row in set (0.01 sec)
+
+
+5.Write a query to find the name (first_name, last_name) and the salary of the employees 
+who have a higher salary than the employee whose last_name='sharma'.
+mysql> select efirst_name,elast_name,emp_salary from employees where emp_salary >(select emp_salary from employees where elast_name='sharma');
+Empty set (0.05 sec)
+
+
+5.Write a query to find the name (first_name, last_name) and the salary of the employees 
+who have a higher salary than the employee whose last_name='kochhar'.
+mysql> select efirst_name,elast_name,emp_salary from employees where emp_salary >(select emp_salary from employees where elast_name='kochhar');
++-------------+------------+------------+
+| efirst_name | elast_name | emp_salary |
++-------------+------------+------------+
+| steven      | king       |      24000 |
++-------------+------------+------------+
+1 row in set (0.00 sec)
+
+6.select those employee data whose id will starts from 103 to 106?
+mysql> select efirst_name,elast_name,empid from employees where empid between 103 and 106;
+Empty set (0.07 sec)
+
+
+7.select those employees data whose id is 104,105 and 108
+mysql> select efirst_name,elast_name,empid from employees where empid in(104,105,108);
+Empty set (0.00 sec)
+
+
+
+8.select those student details whose name starts with l
+mysql> select efirst_name,elast_name,empid from employees where efirst_name like 'l_%';
++-------------+------------+-------+
+| efirst_name | elast_name | empid |
++-------------+------------+-------+
+| lex         | de haan    |   102 |
++-------------+------------+-------+
+1 row in set (0.00 sec)
+
